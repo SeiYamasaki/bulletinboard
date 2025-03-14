@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('bulletin_board_posts', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 50);
+            $table->text('content');
+            $table->string('category');
+            $table->boolean('is_anonymous')->default(true);
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

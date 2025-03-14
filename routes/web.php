@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BulletinBoardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +18,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::prefix('bulletinboard')->group(function () {
+    Route::get('/', [BulletinBoardController::class, 'index'])->name('bulletinboard.index');
+    Route::get('/posts', [BulletinBoardController::class, 'getPosts'])->name('bulletinboard.getPosts'); 
+    Route::post('/posts', [BulletinBoardController::class, 'store'])->name('bulletinboard.store');
+    Route::get('/posts/{post}', [BulletinBoardController::class, 'show'])->name('bulletinboard.show');
+    Route::delete('/posts/{post}', [BulletinBoardController::class, 'destroy'])->name('bulletinboard.destroy');
+    Route::post('/posts/{post}/comments', [BulletinBoardController::class, 'storeComment'])->name('bulletinboard.storeComment');
+    Route::post('/posts/{post}/react', [BulletinBoardController::class, 'storeReaction'])->name('bulletinboard.storeReaction');
+});
+
+
+Route::get('/bulletinboard/create', function () {
+    return view('bulletinboard.create');
+})->name('bulletinboard.create');
+
+require __DIR__ . '/auth.php';

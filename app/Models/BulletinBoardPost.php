@@ -9,5 +9,13 @@ class BulletinBoardPost extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content', 'category', 'is_anonymous', 'image_path'];
+    protected $table = 'bulletin_board_posts'; // ✅ 修正したテーブル名を指定
+
+    protected $fillable = [
+        'title',
+        'content',
+        'category',
+        'is_anonymous',
+        'image_path'
+    ];
 }
