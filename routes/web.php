@@ -20,10 +20,14 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('bulletinboard')->group(function () {
     Route::get('/', [BulletinBoardController::class, 'index'])->name('bulletinboard.index');
-    Route::get('/posts', [BulletinBoardController::class, 'getPosts'])->name('bulletinboard.getPosts'); 
+    Route::get('/posts', [BulletinBoardController::class, 'getPosts'])->name('bulletinboard.getPosts');
     Route::post('/posts', [BulletinBoardController::class, 'store'])->name('bulletinboard.store');
     Route::get('/posts/{post}', [BulletinBoardController::class, 'show'])->name('bulletinboard.show');
     Route::delete('/posts/{post}', [BulletinBoardController::class, 'destroy'])->name('bulletinboard.destroy');
+
+    // いいね機能のCSRFを無効化
+    Route::post('/posts/{post}/like', [BulletinBoardController::class, 'likePost'])->name('bulletinboard.likePost')->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
+
     Route::post('/posts/{post}/comments', [BulletinBoardController::class, 'storeComment'])->name('bulletinboard.storeComment');
     Route::post('/posts/{post}/react', [BulletinBoardController::class, 'storeReaction'])->name('bulletinboard.storeReaction');
 });

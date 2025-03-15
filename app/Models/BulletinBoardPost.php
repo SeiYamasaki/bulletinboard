@@ -18,4 +18,11 @@ class BulletinBoardPost extends Model
         'is_anonymous',
         'image_path'
     ];
+    /**
+     * 投稿に対する「いいね」のリレーション
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'post_id');
+    }
 }
